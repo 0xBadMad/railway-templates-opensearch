@@ -1,31 +1,22 @@
 {
   "$schema": "https://railway.app/template-schema.json",
   "name": "OpenSearch",
-  "description": "OpenSearch single-node. REST API on port 9200.",
+  "description": "OpenSearch single-node search and analytics engine. Auth enabled by default.",
   "version": "1.0.0",
-  "build": { "dockerfile": "Dockerfile" },
-  "deploy": { "numReplicas": 1 },
-  "port": 9200,
-  "healthCheck": {
-    "command": ["bash", "-c", "echo > /dev/tcp/localhost/9200"],
-    "interval": 60,
-    "timeout": 10,
-    "retries": 5
+  "build": {
+    "dockerfile": "Dockerfile",
+    "nixpacksConfigFile": "nixpacks.toml"
   },
+  "deploy": {
+    "numReplicas": 1
+  },
+  "port": 9200,
   "variables": [
     {
-      "name": "DISABLE_SECURITY",
-      "description": "Set to 'true' to disable security (default for dev). Set to 'false' and provide OPENSEARCH_ADMIN_PASSWORD for production.",
-      "default": "true"
-    },
-    {
       "name": "OPENSEARCH_ADMIN_PASSWORD",
-      "description": "Admin password (only used when DISABLE_SECURITY=false)",
-      "default": ""
-    },
-    {
-      "name": "OPENSEARCH_JAVA_OPTS",
-      "default": "-Xmx1G -Xms1G"
+      "description": "Admin password for OpenSearch security. Default: auto-generated secret.",
+      "default": "",
+      "required": false
     }
   ]
 }
