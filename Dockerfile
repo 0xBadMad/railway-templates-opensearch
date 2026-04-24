@@ -1,4 +1,5 @@
 FROM opensearchproject/opensearch:latest
 ENV discovery.type=single-node
-ENV plugins.security.disabled=true
 ENV OPENSEARCH_JAVA_OPTS=-Xmx1G -Xms1G
+ENV DISABLE_SECURITY=${DISABLE_SECURITY:-true}
+ENV OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD:-}
