@@ -3,27 +3,21 @@
   "name": "OpenSearch",
   "description": "OpenSearch single-node with security disabled. REST API on port 9200.",
   "version": "1.0.0",
-  "platform": "docker",
-  "docker": {
-    "image": "opensearchproject/opensearch:latest",
-    "port": 9200,
-    "healthCheck": {
-      "command": ["bash", "-c", "echo '' > /dev/tcp/localhost/9200"],
-      "interval": 60,
-      "timeout": 10,
-      "retries": 5
-    },
-    "env": {
-      "discovery.type": "single-node",
-      "plugins.security.disabled": "true",
-      "OPENSEARCH_JAVA_OPTS": "-Xmx1G -Xms1G"
-    }
+  "build": { "dockerfile": "Dockerfile" },
+  "deploy": { "numReplicas": 1 },
+  "port": 9200,
+  "healthCheck": {
+    "command": ["bash", "-c", "echo > /dev/tcp/localhost/9200"],
+    "interval": 60,
+    "timeout": 10,
+    "retries": 5
+  },
+  "env": {
+    "discovery.type": "single-node",
+    "plugins.security.disabled": "true",
+    "OPENSEARCH_JAVA_OPTS": "-Xmx1G -Xms1G"
   },
   "variables": [
-    {
-      "name": "OPENSEARCH_JAVA_OPTS",
-      "description": "JVM heap options",
-      "default": "-Xmx1G -Xms1G"
-    }
+    { "name": "OPENSEARCH_JAVA_OPTS", "default": "-Xmx1G -Xms1G" }
   ]
 }
